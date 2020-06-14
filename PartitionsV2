@@ -1,0 +1,43 @@
+
+import tkinter as tk
+
+def partitionGenerator(n, offset=1):
+    yield n,
+    for i in range(offset, n // 2 + 1):
+        for p in partitionGenerator(n - i, i):
+            yield p+(i,)
+            
+partitions = sorted(partitionGenerator(5), reverse=True)
+
+def visualizeData():
+    x1 = 25
+    x2 = 50
+    y1 = 0 
+    y2 = 25
+    unity = 0
+    for p in partitions:
+        y1 += 25
+        y2 += 25
+        for i in range(len(p)):
+            cnt = p[i]
+            if len(p)>1 :
+                unity = 1
+            for y in range(cnt):
+                w.create_rectangle(x1, y1, x2, y2)
+                x1 += 25
+                x2 += 25
+            x1 = 25
+            x2 = 50
+            y1 += 50
+            y2 += 50
+            if unity == 1:
+                y1 -= 25
+                y2 -= 25
+            
+master = tk.Tk()
+w = tk.Canvas(master, width=1280, height=720)
+w.pack()
+visualizeData()
+tk.mainloop()
+    
+    
